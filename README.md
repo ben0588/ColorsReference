@@ -1,8 +1,29 @@
-# React + Vite
+# 色碼紀錄
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+本網站目的：紀錄自己想要的色碼組合 (一組最多五個色碼)，且依照色碼顯示顏色區塊。
 
-Currently, two official plugins are available:
+## 使用技術
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 框架：使用 Vite 開發 React 框架
+- 管理：使用 Redux-toolkit 完成全域狀態管理。
+- 存儲：使用 Redux-persist 完成資料本地端( LocalStorage ) 自動儲存與刪除。
+- 樣式：使用 Bootstrap5 進行開發
+
+## 安裝與執行
+
+1. 使用 npm 安裝相依套件：`npm install`
+2. 執行專案：`npm run dev`
+
+## 功能
+
+1. 主要功能：依照設定好的色碼，滑鼠移入按左鍵直接複製代碼。
+1. 設定色碼：「新增」、「編輯」、「刪除單一」、「刪除全部」色碼組合。
+1. 注意：頁面重新整理不會丟失紀錄，但更換裝置會遺失紀錄！
+
+
+## 授權
+
+本專案僅供個人作品集使用，不做任何商用，需要使用此功能可直接到已發布好靜態網頁使用：[網址]()。
+
+## 其他
+- 如專案展示或其餘作品展示，可前往本人個人網站，[連結](https://ben0588.github.io/PersonalWebsite/#/)
