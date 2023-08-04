@@ -63,9 +63,7 @@ function App() {
     const [type, setType] = useState('');
 
     useEffect(() => {
-        modalRef.current = new Modal('#editModal', {
-            backdrop: 'static',
-        });
+        modalRef.current = new Modal('#editModal');
     }, []);
 
     const handleOpenEditModal = (type, data) => {

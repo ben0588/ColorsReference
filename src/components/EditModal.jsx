@@ -66,7 +66,7 @@ const EditModal = ({ handleCancelEdotModal, target, type }) => {
     };
     return (
         <div className='modal fade  ' id='editModal'>
-            <div className='modal-dialog modal-xl'>
+            <div className='modal-dialog modal-xl' data-bs-config={{ backdrop: true }}>
                 <div className='modal-content'>
                     <div className='modal-header'>
                         <h1 className='modal-title fs-5' id='exampleModalLabel'>
