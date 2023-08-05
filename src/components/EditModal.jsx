@@ -1,9 +1,12 @@
-import { useEffect, useState } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createColor, updateColor } from '../store/colorSliec';
 import { toast } from 'react-toastify';
+import Button from 'react-bootstrap/Button';
 
-const EditModal = ({ handleCancelEdotModal, target, type }) => {
+import Modal from 'react-bootstrap/Modal';
+
+const EditModal = ({ target, type, show, handleClose }) => {
     const dispatch = useDispatch();
     const color = useSelector((state) => state.color);
 
@@ -47,7 +50,7 @@ const EditModal = ({ handleCancelEdotModal, target, type }) => {
             });
             dispatch(createColor({ ...colors }));
             setColors(initialValue);
-            handleCancelEdotModal();
+            handleClose();
         } else {
             dispatch(updateColor({ ...colors }));
             toast.success(`編輯色碼成功`, {
@@ -61,58 +64,42 @@ const EditModal = ({ handleCancelEdotModal, target, type }) => {
                 theme: 'light',
             });
             setColors(initialValue);
-            handleCancelEdotModal();
+            handleClose();
         }
     };
     return (
-        <div className='modal fade  ' id='editModal'>
-            <div className='modal-dialog modal-xl' data-bs-config={{ backdrop: true }}>
-                <div className='modal-content'>
-                    <div className='modal-header'>
-                        <h1 className='modal-title fs-5' id='exampleModalLabel'>
-                            {type === 'create' ? '新增色碼組合' : `編輯色碼「${target.id}」組合`}
-                        </h1>
-                        <button type='button' className='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
-                    </div>
-                    <div className='modal-body'>
-                        <div className='input-group mb-3'>
-                            <span className='input-group-text' id='inputGroup-sizing-default'>
-                                請輸入色碼 (最多五組)
-                            </span>
-                            {[...Array(5)].map((_, i) => (
-                                <input
-                                    key={i}
-                                    type='text'
-                                    name='colors'
-                                    className='form-control'
-                                    aria-label='Sizing example input'
-                                    aria-describedby='inputGroup-sizing-default'
-                                    onChange={(e) => handleChangeText(e, i)}
-                                    value={colors ? colors?.colorsList?.[i] : ''}
-                                />
-                            ))}
-                        </div>
-                    </div>
-                    <div className='modal-footer'>
-                        <button
-                            type='button'
-                            className='btn btn-secondary'
-                            data-bs-dismiss='modal'
-                            onClick={handleCancelEdotModal}
-                        >
-                            取消
-                        </button>
-                        <button
-                            type='button'
-                            className={`btn text-white ${type === 'create' ? 'bg-success' : 'bg-dark '}`}
-                            onClick={() => handleCreateColorList()}
-                        >
-                            {type === 'create' ? '新增色碼' : `儲存色碼`}
-                        </button>
-                    </div>
+        <Modal show={show} onHide={handleClose} backdrop='static' size='lg'>
+            <Modal.Header closeButton>
+                <Modal.Title> {type === 'create' ? '新增色碼組合' : `編輯色碼「${target.id}」組合`}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <div className='input-group mb-3'>
+                    <span className='input-group-text'>請輸入色碼 (最多五組)</span>
+                    {[...Array(5)].map((_, i) => (
+                        <input
+                            key={i}
+                            type='text'
+                            name='colors'
+                            className='form-control'
+                            onChange={(e) => handleChangeText(e, i)}
+                            value={colors ? colors?.colorsList?.[i] : ''}
+                        />
+                    ))}
                 </div>
-            </div>
-        </div>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant='secondary' onClick={handleClose} className='btn btn-secondary'>
+                    取消
+                </Button>
+                <Button
+                    variant='primary'
+                    onClick={handleCreateColorList}
+                    className={`btn text-white ${type === 'create' ? 'bg-success' : 'bg-dark '}`}
+                >
+                    {type === 'create' ? '新增色碼' : `儲存色碼`}
+                </Button>
+            </Modal.Footer>
+        </Modal>
     );
 };
 export default EditModal;

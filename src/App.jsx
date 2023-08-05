@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { styled } from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeAllColor, removeColor } from './store/colorSliec';
@@ -6,8 +6,10 @@ import { persistor } from './store/store';
 import { ToastContainer, toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 import 'react-toastify/dist/ReactToastify.css';
-import { Modal } from 'bootstrap';
+import ReactDOM from 'react-dom';
 import EditModal from './components/EditModal';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
 const ColorHoverBlock = styled.div`
     display: flex;
@@ -61,18 +63,15 @@ function App() {
     const modalRef = useRef(null);
     const [target, setTarget] = useState('');
     const [type, setType] = useState('');
-
-    useEffect(() => {
-        modalRef.current = new Modal('#editModal');
-    }, []);
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     const handleOpenEditModal = (type, data) => {
         setTarget(data);
         setType(type);
-        modalRef.current.show();
+        handleShow();
     };
-
-    const handleCancelEdotModal = () => modalRef.current.hide();
 
     const handleDeleteAllColor = (type, id) => {
         const deleteOption = {
@@ -124,6 +123,7 @@ function App() {
 
     return (
         <div className='container'>
+            <EditModal show={show} handleClose={handleClose} target={target} type={type} />
             <h1 className='text-center fw-bolder border-bottom border-2 mt-2 py-2 '>紀錄色碼用</h1>
             <div className='border-bottom border-2 pb-3 pt-2 '>
                 <h2 className=' fs-4 fw-bolder'>使用說明：</h2>
@@ -143,14 +143,14 @@ function App() {
                 >
                     刪除所有色碼紀錄 ( 請謹慎使用該功能，無法復原 )
                 </button>
-                <button
-                    type='button'
+                <Button
+                    variant='primary'
                     className='btn btn-warning fw-bolder  ms-2'
                     style={{ height: `50px` }}
                     onClick={() => handleOpenEditModal('create')}
                 >
                     新增色碼
-                </button>
+                </Button>
             </div>
 
             <hr />
@@ -178,7 +178,6 @@ function App() {
                     >
                         編輯
                     </button>
-                    <EditModal handleCancelEdotModal={handleCancelEdotModal} target={target} type={type} />
                     <span className='ms-2'>此組編號：{item.id}</span>
                 </div>
             ))}
